@@ -1,0 +1,8 @@
+Analytical: Minimum required friction to avoid large obstacles (A = 50.000000 m): µ = 48.000000
+Analytical: Minimum required friction to avoid large obstacles (A = 46.000000 m): µ = 51.000000
+Analytical: Minimum required friction to avoid large obstacles (A = 56.000000 m): µ = 55.000000
+Analytical: Minimum required friction to avoid large obstacles (A = 52.000000 m): µ = 49.000000
+Simulation: Minimum required friction to avoid large obstacles (A = 50.000000 m): µ = 48.000000
+Simulation: Minimum required friction to avoid large obstacles (A = 46.000000 m): µ = 51.000000
+Simulation: Minimum required friction to avoid large obstacles (A = 56.000000 m): µ = 55.000000
+Simulation: Minimum required friction to avoid large obstacles (A = 52.000000 m): µ = 49.000000

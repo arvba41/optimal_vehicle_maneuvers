@@ -1,0 +1,66 @@
+\begin{frame}{}
+    \begin{alertblock}{PEP: Pendulum turn?}
+        Experiment with vehicle parameters (especially inertia) to see if it occurs. (Are many rally drivers wrong?)
+    \end{alertblock}
+    \begin{columns}
+        \begin{column}[c]{0.5\textwidth}
+            Single Track Model:
+            \begin{tikzpicture}
+
+                \pgfmathsetmacro{\y}{4.5}
+                \pgfmathsetmacro{\x}{2.5}
+                \pgfmathsetmacro{\Angle}{atan2(\x,\y)}
+                \pgfmathsetmacro{\AngleR}{30}
+                \pgfmathsetmacro{\AngleF}{45}
+                \pgfmathsetmacro{\AngleDelta}{25}
+                \pgfmathsetmacro{\COMradius}{0.15}
+                
+                \coordinate (Origin) at (0,0);
+                \draw [-latex,thick] (Origin)--++(0,\x+1.5) coordinate (yaxis); 
+                \draw [-latex,thick] (Origin)--++(\y+1.5,0) coordinate (xaxis); 
+                \draw [dashed] (Origin)--++(\Angle:6.5cm) coordinate (AngleEnd);
+                \draw [dotted,thick] (\y,0) node [below] {$y$} --++(0,\x) coordinate (Fyf);
+                \draw [dotted,thick] (0,\x) node [left] {$x$} --++(\y,0);
+                \draw pic["$\Psi$", draw=black, text=black, -latex, angle eccentricity=1.25, angle radius=0.8cm]
+                              {angle=xaxis--Origin--Fyf};
+                
+                % Fyr
+                \coordinate (Fyr) at ($ (Origin) + (\Angle:2cm) $);
+                \node at (Fyr) [rotate=\Angle,draw,thick,rounded corners=2mm,minimum width=1cm, minimum height=0.4cm] {};
+                \draw [red,-latex,thick] (Fyr)--++(\Angle+\AngleR:1.3cm) coordinate (RedArrowOne);
+                \draw pic["$\alpha_r$", draw=black, text=red, -latex, angle eccentricity=1.45, angle radius=0.8cm]
+                              {angle=Fyf--Fyr--RedArrowOne};
+                \draw [latex-,thick,blue] (Fyr)--++(\Angle-90:0.5cm) node [rotate=\Angle,right] {$F_{yr}$};           
+                
+                \draw [thick] (Fyr)--(Fyf); 
+                
+                % Fyf  
+                \node at (Fyf) [rotate=\Angle+\AngleDelta,draw,thick,rounded corners=2mm,minimum width=1cm, minimum height=0.4cm] {};         
+                \draw [red,-latex,thick] (Fyf)--++(\Angle+\AngleF:1.3cm) coordinate (RedArrowTwo);
+                \draw [dashed] (Fyf)--++(\Angle+\AngleDelta:1.3cm) coordinate (DeltaAngleEnd);
+                \draw pic["$\delta_f$", draw=black, text=black, -latex, angle eccentricity=1.35, angle radius=0.8cm]
+                           {angle=AngleEnd--Fyf--DeltaAngleEnd};
+                \draw pic["$\alpha_f$", draw=black, text=red, -latex, angle eccentricity=1.45, angle radius=1cm]
+                      {angle=DeltaAngleEnd--Fyf--RedArrowTwo};
+                \draw [latex-,thick,blue] (Fyf)--++(\Angle-90:0.5cm) node [rotate=\Angle,right] {$F_{yf}$};       
+                
+                % COM
+                \coordinate (COM) at ($ (Origin) + (\Angle:3.7cm) $);
+                \begin{scope}[rotate=\Angle]
+                \fill [radius=\COMradius] (COM) -- ++(\COMradius,0) arc [start angle=0,end angle=90] -- ++(0,-2*\COMradius) arc [start angle=270, end angle=180];
+                \draw [thick,radius=\COMradius] (COM) circle;
+                \end{scope}
+                \draw [-latex,thick,green] (COM)--++(\Angle+90:0.5cm) node [left,rotate=\Angle] {$V$};
+                \draw [-latex,thick,green] (COM)--++(\Angle:0.8cm) node [below,rotate=\Angle] {$U$};
+                
+                % Labels
+                \coordinate (LrLabel) at ($ (Fyr) +  (\Angle+90:1cm) $);
+                \coordinate (COMLabel) at ($ (COM) +  (\Angle+90:1cm) $);
+                \coordinate (LfLabel) at ($ (Fyf) +  (\Angle+90:1cm) $);
+                \draw [{Bar}{latex}-{latex}{Bar}] (LrLabel)--(COMLabel) node [midway,sloped,fill=white] {$l_r$};
+                \draw [{Bar}{latex}-{latex}{Bar}] (COMLabel)--(LfLabel) node [midway,sloped,fill=white] {$l_f$};
+                
+                \end{tikzpicture}
+        \end{column}
+    \end{columns}
+\end{frame}

@@ -1,0 +1,142 @@
+% Created 2018-01-18 Thu 22:19
+% \documentclass[aspectratio=169,10pt,trans]{beamer}
+% \documentclass[aspectratio=169,10pt,trans]{beamer}
+\documentclass[aspectratio=169,10pt]{beamer}
+
+%% for handouts mode
+% \documentclass[aspectratio=169,10pt,handout]{beamer}
+
+
+% LiU theme packages
+\usepackage{myLiU}%\usetheme{Madrid}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+%\usepackage{fixltx2e}
+\usepackage{graphicx}
+%\usepackage{longtable}
+\usepackage{float}
+%\usepackage{wrapfig}
+%\usepackage{rotating}
+\usepackage{fontawesome5}
+% \usepackage[normalem]{ulem}
+\usepackage{amsmath}
+%\usepackage{textcomp}
+% \usepackage{marvosym}
+% \usepackage{wasysym}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage[round]{natbib}
+\usepackage{color}
+\usepackage{listings}
+\lstset{language=Matlab,%
+  % basicstyle=\color{red},
+  breaklines=true,%
+  morekeywords={matlab2tikz},
+  keywordstyle=\color{blue},%
+  morekeywords=[2]{1}, keywordstyle=[2]{\color{black}},
+  identifierstyle=\color{black},%
+  stringstyle=\color{mylilas},
+  commentstyle=\color{mygreen},%
+  showstringspaces=false,%without this there will be a symbol in the places where there is a space
+  numbers=left,%
+  numberstyle={\tiny \color{black}},% size of the numbers
+  numbersep=5pt, % this defines how far the numbers are from the text
+  emph=[1]{for,end,break},emphstyle=[1]\color{red}, %some words to emphasise
+  % emph=[2]{word1,word2}, emphstyle=[2]{style},    
+}
+
+\tolerance=1000
+% \usetheme{default}
+\author[Arvind B]{Arvind Balachandran}
+\date{April 28, 2023}
+\title[BI-MMC Lab]{The BI-MMC Laboratory}
+\subtitle{An experimental platform to implement and investigate the next generation algorithms for control and saftey of EVs.}
+%\hypersetup{
+%  pdfkeywords={},
+%  pdfsubject={}}
+ \AtBeginSection[]% "Beamer, do the following at the start of every section"
+ {\begin{frame}% <beamer> 
+     \frametitle{Outline} % make a frame titled "Outline"
+     \tableofcontents[currentsection]  % show TOC and highlight current section
+     \tableofcontents
+   \end{frame}}
+
+\usepackage{siunitx}
+
+\usepackage{tikz}
+\usetikzlibrary{calc,quotes,angles}
+
+% definitions file
+% \input{definitions.tex}
+
+%-------------------------------------------
+% Handouts 
+% \usepackage{handoutWithNotes}
+% \usepackage{pgfpages}
+% \pgfpagesuselayout{4 on 1}[a4paper,border shrink=5mm]
+
+% temporarily disable overlays
+% \newcommand*{\disableanim}[1]{{%
+% 		\RenewDocumentCommand{\onslide}{ R<>{} }{}%
+% 		#1%
+% }}
+
+%% Animation package 
+\usepackage{animate}
+
+% \AtBeginPart{\frame{\partpage}}
+
+\setbeamertemplate{section page}{  
+  \begingroup    
+  \centering
+  \begin{beamercolorbox}[sep=12pt,center,colsep=-4bp,rounded=true,shadow=flase]{section title}       
+    \usebeamerfont{section title}\insertsection\par     
+  \end{beamercolorbox}   
+  \endgroup 
+}
+\AtBeginSection{\frame{\sectionpage}}
+
+\begin{document}
+
+\maketitle
+
+% \include{frames/outline.tex} % outline
+% \include{frames/motivation.tex} % 2-level inverter challenges
+\include{frames/pep_intro.tex}
+% \include{frames/mmc.tex} % overview incof MMCs
+% \include{frames/bimmc_overview.tex} % BI-MMC need
+% % \include{frames/contributions.tex} % contributions
+% % \include{frames/topology_eval_mot.tex} % topology evalulation merthodology
+% \include{frames/topology_overview.tex} % topology overview
+% \include{frames/submodules.tex} % submoduels overview
+% \include{frames/systems.tex} % systems overview
+% \include{frames/semiconductor_losses.tex} % semiconductor losses calculation
+% \include{frames/battery_cap_losses.tex} % battery and capacitor losses calculation
+% \include{frames/design_parameters.tex} % design parameteres
+% \include{frames/operating_modes.tex} % operating modes
+% \include{frames/submodule_loss_dist.tex}
+% \include{frames/submodule_current_dist.tex}
+% \include{frames/operating_modes_tab.tex} % operating modes table
+% \include{frames/results_del1.tex} % results (part 1)
+% \include{frames/results_del2.tex} % results (part 2)
+% \include{frames/performance_matrix.tex} % performanmce matric
+% \include{frames/conclusion.tex} % conclusion
+% \section{Whats Done?}
+% \include{frames/bimmc_lab.tex}
+% \include{frames/init_expt.tex}
+% \include{frames/init_pspwm_expt.tex}
+% \include{frames/init_pspwm_expt2.tex}
+% \section{Future Activities?}
+% \include{frames/soc_balancing.tex}
+% \include{frames/modulation.tex}
+% \include{frames/impedance_measurement.tex}
+% \section{Looking for an examiner}
+% \include{frames/impl_modtech.texs}
+% \input{frames/summary.tex}
+% \input{frames/overview.tex}
+
+\end{document}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
