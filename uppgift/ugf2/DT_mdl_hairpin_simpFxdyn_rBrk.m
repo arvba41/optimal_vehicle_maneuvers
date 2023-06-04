@@ -44,7 +44,6 @@ Pwid = -5;   % width of the path
 % steering constraints
 deltamax = pi/6;
 ddeltamax = pi/4;
-% Ymax = 3; % upper limit 
 
 Vxstart = 30/3.6;
 
@@ -52,8 +51,7 @@ Vxstart = 30/3.6;
 TdFxf = 0.1;
 TdFxr = 0.1;
 
-
-%% Car Avoiding an obstacle
+%% OCP
 % ----------------------
 % An optimal control problem (OCP),
 % solved with direct multiple-shooting.
@@ -97,7 +95,7 @@ betay = opti.variable();  % approximation parameters
 % ---- objective          ---------
 J = (T + 0.5*(betax + betay)); % minimum time
 % J = -(vx(end) + 0.5*(betax + betay)); % maximum exit speed
-% J = T;
+
 opti.minimize(J);         % minimize time
 
 % ---- dynamic constraints -----
@@ -124,21 +122,11 @@ vy1 = @(vx,vy,r,delta,Fxf,Fxr) cos(delta).*(vy + lx1*r) - sin(delta).*(vx - ly1*
 vy2 = @(vx,vy,r,delta,Fxf,Fxr) cos(delta).*(vy + lx2*r) - sin(delta).*(vx - ly2*r);
 vy3 = @(vx,vy,r,delta,Fxf,Fxr) vy + lx3*r;
 vy4 = @(vx,vy,r,delta,Fxf,Fxr) vy + lx4*r;
-% vxf = @(vx,vy,r,delta,Fxf,Fxr) vx.*cos(delta) + sin(delta).*(vy + lf.*r); 
-% vyf = @(vx,vy,r,delta,Fxf,Fxr) cos(delta).*(vy + lf.*r) - vx.*sin(delta);
-% vxr = @(vx,vy,r,delta,Fxf,Fxr) vx;
-% vyr = @(vx,vy,r,delta,Fxf,Fxr) vy + lr.*r;
 % ---- determining the lateral slips ----
-% alphaf = @(vx,vy,r,delta,Fxf,Fxr) -atan(vyf(vx,vy,r,delta,Fxf,Fxr)./vxf(vx,vy,r,delta,Fxf,Fxr));
-% alphar = @(vx,vy,r,delta,Fxf,Fxr) -atan(vyr(vx,vy,r,delta,Fxf,Fxr)./vxr(vx,vy,r,delta,Fxf,Fxr));
 alpha1 = @(vx,vy,r,delta,Fxf,Fxr) -atan(vy1(vx,vy,r,delta,Fxf,Fxr)./vx1(vx,vy,r,delta,Fxf,Fxr));
 alpha2 = @(vx,vy,r,delta,Fxf,Fxr) -atan(vy2(vx,vy,r,delta,Fxf,Fxr)./vx2(vx,vy,r,delta,Fxf,Fxr));
 alpha3 = @(vx,vy,r,delta,Fxf,Fxr) -atan(vy3(vx,vy,r,delta,Fxf,Fxr)./vx3(vx,vy,r,delta,Fxf,Fxr));
 alpha4 = @(vx,vy,r,delta,Fxf,Fxr) -atan(vy4(vx,vy,r,delta,Fxf,Fxr)./vx4(vx,vy,r,delta,Fxf,Fxr));
-% alpha1 = alphaf;
-% alpha2 = alphaf;
-% alpha3 = alphar;
-% alpha4 = alphar;
 % ---- determining the lateral forces on the wheels from Fy ----
 % maximum forces
 Fzf = m*g*lr/(lf+lr)/2; 
@@ -153,10 +141,6 @@ Fy1 = @(vx,vy,r,delta,Fxf,Fxr) Fy01(vx,vy,r,delta,Fxf,Fxr).*sqrt(1 - (Fxf/Dxf).^
 Fy2 = @(vx,vy,r,delta,Fxf,Fxr) Fy02(vx,vy,r,delta,Fxf,Fxr).*sqrt(1 - (Fxf/Dxf).^2);
 Fy3 = @(vx,vy,r,delta,Fxf,Fxr) Fy03(vx,vy,r,delta,Fxf,Fxr).*sqrt(1 - (Fxr/Dxr).^2);
 Fy4 = @(vx,vy,r,delta,Fxf,Fxr) Fy03(vx,vy,r,delta,Fxf,Fxr).*sqrt(1 - (Fxr/Dxr).^2);
-% Fy0f = @(vx,vy,r,delta,Fxf,Fxr) Dyf.*sin(Cyf.*atan(Byf.*alphaf(vx,vy,r,delta,Fxf,Fxr)-Eyf.*(Byf.*alphaf(vx,vy,r,delta,Fxf,Fxr) - atan(Byf.*alphaf(vx,vy,r,delta,Fxf,Fxr)))));
-% Fy0r = @(vx,vy,r,delta,Fxf,Fxr) Dyr.*sin(Cyr.*atan(Byr.*alphar(vx,vy,r,delta,Fxf,Fxr)-Eyr.*(Byr.*alphar(vx,vy,r,delta,Fxf,Fxr) - atan(Byr.*alphar(vx,vy,r,delta,Fxf,Fxr)))));
-% Fyf = @(vx,vy,r,delta,Fxf,Fxr) Fy0f(vx,vy,r,delta,Fxf,Fxr).*sqrt(1 - (Fxf/Dxf).^2);
-% Fyr = @(vx,vy,r,delta,Fxf,Fxr) Fy0r(vx,vy,r,delta,Fxf,Fxr).*sqrt(1 - (Fxr/Dxr).^2);
 % ---- the total forces and moments acting on the veh@()cile ----
 % longitudanal force
 F_X1 = @(vx,vy,r,delta,Fxf,Fxr) Fxf.*cos(delta) - Fy1(vx,vy,r,delta,Fxf,Fxr).*sin(delta);
@@ -164,27 +148,18 @@ F_X2 = @(vx,vy,r,delta,Fxf,Fxr) Fxf.*cos(delta) - Fy2(vx,vy,r,delta,Fxf,Fxr).*si
 F_X3 = @(vx,vy,r,delta,Fxf,Fxr) Fxr;
 F_X4 = @(vx,vy,r,delta,Fxf,Fxr) Fxr;
 F_X = @(vx,vy,r,delta,Fxf,Fxr) F_X1(vx,vy,r,delta,Fxf,Fxr) + F_X2(vx,vy,r,delta,Fxf,Fxr) + F_X3(vx,vy,r,delta,Fxf,Fxr) + F_X4(vx,vy,r,delta,Fxf,Fxr);
-% F_X = @(vx,vy,r,delta,Fxf,Fxr)  cos(delta).*Fxf ...
-%                         - sin(delta).*Fyf(vx,vy,r,delta,Fxf,Fxr) ...
-%                         + Fxr;
 % lateral force
 F_Y1 = @(vx,vy,r,delta,Fxf,Fxr) Fy1(vx,vy,r,delta,Fxf,Fxr).*cos(delta) + Fxf.*sin(delta);
 F_Y2 = @(vx,vy,r,delta,Fxf,Fxr) Fy2(vx,vy,r,delta,Fxf,Fxr).*cos(delta) + Fxf.*sin(delta);
 F_Y3 = @(vx,vy,r,delta,Fxf,Fxr) Fy3(vx,vy,r,delta,Fxf,Fxr);
 F_Y4 = @(vx,vy,r,delta,Fxf,Fxr) Fy4(vx,vy,r,delta,Fxf,Fxr);
 F_Y = @(vx,vy,r,delta,Fxf,Fxr) F_Y1(vx,vy,r,delta,Fxf,Fxr) + F_Y2(vx,vy,r,delta,Fxf,Fxr) + F_Y3(vx,vy,r,delta,Fxf,Fxr) + F_Y4(vx,vy,r,delta,Fxf,Fxr);
-% F_Y = @(vx,vy,r,delta,Fxf,Fxr) cos(delta).*Fyf(vx,vy,r,delta,Fxf,Fxr) ...
-%                         + sin(delta).*Fxf ...
-%                         + Fyr(vx,vy,r,delta,Fxf,Fxr);
 % total moment 
 M_Z1 = @(vx,vy,r,delta,Fxf,Fxr) Fy1(vx,vy,r,delta,Fxf,Fxr).*(lx1*cos(delta) + ly1*sin(delta)) - Fxf.*(ly1*cos(delta) - lx1*sin(delta));
 M_Z2 = @(vx,vy,r,delta,Fxf,Fxr) Fy2(vx,vy,r,delta,Fxf,Fxr).*(lx2*cos(delta) + ly2*sin(delta)) - Fxf.*(ly2*cos(delta) - lx2*sin(delta));
 M_Z3 = @(vx,vy,r,delta,Fxf,Fxr) Fy3(vx,vy,r,delta,Fxf,Fxr)*lx3 - Fxr*ly3;
 M_Z4 = @(vx,vy,r,delta,Fxf,Fxr) Fy4(vx,vy,r,delta,Fxf,Fxr)*lx4 - Fxr*ly4;
 M_Z = @(vx,vy,r,delta,Fxf,Fxr) M_Z1(vx,vy,r,delta,Fxf,Fxr) + M_Z2(vx,vy,r,delta,Fxf,Fxr) + M_Z3(vx,vy,r,delta,Fxf,Fxr) + M_Z4(vx,vy,r,delta,Fxf,Fxr);
-% M_Z = @(vx,vy,r,delta,Fxf,Fxr)  lf*cos(delta).*Fyf(vx,vy,r,delta,Fxf,Fxr) ...
-%                         + lf*sin(delta).*Fxf ...
-%                         - lr*Fyr(vx,vy,r,delta,Fxf,Fxr);
 
 % ---- ODE ----
 f = @(x,u) [ ... posistion dynamics ...
@@ -213,25 +188,13 @@ for k=1:N % loop over control intervals
    opti.subject_to(X(:,k+1)==x_next); % close the gaps
 end
 
-% ---- obstacle ----
-% obst = @(x,y) -((x-Xa)/R1).^pow -(y/R2).^pow + 1; % obstacle 
-% opti.subject_to(obst(xpos,ypos)<=0); % ensure that we are far from the elipse
-% --- sigmoidal definition of obstacle 
-% % defining smooth heaviside functions for step-up and step-down
-% Hs_p = @(x,cen,xofc,fac) 0.5*(1 + tanh(2*fac*pi*(x-xofc)/cen));
-% Hs_n = @(x,cen,xofc,fac) 0.5*(1 + tanh(2*fac*pi*(xofc-x)/cen));
-% % pulse function 
-% Hs_pulse = @(x,cen,wdh,fac) (Hs_p(x,cen,cen - wdh,fac).*Hs_n(x,cen,cen + wdh,fac)) ;
-% % obsticle
-% obst = @(x,cen,wdh,fac,hgt,ofc) hgt*Hs_pulse(x,cen,wdh,fac) + ofc;
-% % opti.subject_to(obst(xpos,Xfin,Owdt,Osrp,Ohgt,-2*Pwid)<= ypos <= obst(xpos,Xfin,Owdt+Pwid,Osrp,Ohgt,-Pwid)); % ensure that we are far from the elipse
-% opti.subject_to(obst(xpos,Xfin,Owdt,Osrp,Ohgt,Pwid)<= ypos); % ensure that we are far from the elipse
-%----------- elipses 
+% ---- hairpin ----
 path_in = @(x,y) ((x-Xa)/R1).^pow + (y/R2).^pow;
 path_out = @(x,y) ((x-Xa)/(R1+Owdt)).^pow + (y/(R2+Owdty)).^pow;
 opti.subject_to(path_in(xpos,ypos) >= 1);
 opti.subject_to(path_out(xpos,ypos) <= 1);
 
+% ---- final position slack ----
 opti.subject_to((Xend - betax) <= xpos(N+1) <= (Xend + betax));
 opti.subject_to((Yfin - betay) <= ypos(N+1) <= (Yfin + betay));
 
@@ -415,9 +378,6 @@ figno = 10;
 figure(figno); clf; figno = figno + 1;
 
 plot(prob1.x,prob1.y,'Color','b'); hold on;
-% fimplicit(@(x,y) obst(x,y),[0 Xend 0 4],'Color','r');
-% fplot(@(x) obst(x,Xfin,Owdt,Osrp,Ohgt,Pwid),[0 2*Xfin],'Color','r')
-% ---- selip (1/2)
 fimplicit(@(x,y) path_in(x,y) - 1 ,[0 2*Xfin 0 Ohgt+Owdty],'Color','r');
 fimplicit(@(x,y) path_out(x,y) - 1 ,[0 2*Xfin 0 Ohgt+Owdty],'Color','r')
 set(gca,'YGrid','on','GridLineStyle','--','GridColor','k');  

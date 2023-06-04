@@ -1,4 +1,4 @@
-\chapter[Double-Track Maneuver Optimization]{Maneuver with DT for hairpin 6\textsuperscript{th} degree super ellipse, without LT or WT.}
+\chapter[Double-Track Maneuver Optimization]{Maneuver with DT for hairpin 4\textsuperscript{th} degree super ellipse, without LT or WT.}
 
 In addition to the double-track (DT) model equations state equations,
 % \begin{align*}
@@ -117,6 +117,10 @@ The states and forces acting on the wheels for the DT model for the hairpin are 
         The OCP for the DT model hairpin turn maneuver can have difficulty finding the optimal solution if the initial guesses are non-trivial. Therefore to improve convergence, the height of the hairpin was slowly increased, and the simulation results from the previous iterations were used as initializations for the next.
     }%
 }
+
+\section{Code}
+
+The source code for this problem can be found at \newline \href{https://github.com/arvba41/optimal_vehicle_maneuvers/tree/main/uppgift/ugf2}{https://github.com/arvba41/optimal\_vehicle\_maneuvers}.
 
 % $\mathbf{v_x > 0}$, to avoid $\div$ by zero error while calculating the lateral slips, $\alpha$.\\
 % $\mathbf{-\delta_{max} \leq \delta \leq \delta_{max}}$, steering angle limit.\\

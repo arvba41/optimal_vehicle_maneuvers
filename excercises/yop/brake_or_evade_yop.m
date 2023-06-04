@@ -11,9 +11,9 @@ A = 12; % m
 Ypos = 0; 
 Xpos = 0; 
 
-Xend = 20.3; % stopping distance (DRY asphalt)
+% Xend = 20.3; % stopping distance (DRY asphalt)
 % Xend = 34; % stopping distance (WET asphalt)
-% Xend = 68; % stopping distance (ICE asphalt)
+Xend = 68; % stopping distance (ICE asphalt)
 
 % parameters
 params.m = 2000;
@@ -96,7 +96,7 @@ x = [xpos; ypos; vx; vy];
 u = [u1; u2];
 
 % optimal control problem
-ocp = yop.ocp('Wet_asphalt_evading_distance');
+ocp = yop.ocp('Dry_asphalt_stopping_distance');
 
 % maximize the height
 ocp.min(tf)

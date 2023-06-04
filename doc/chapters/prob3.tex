@@ -1,0 +1,140 @@
+\chapter{Verification of brake or evade criteria}
+
+To verify the brake or evade criteria the following OCP was formulated:
+\begin{align}
+    & \underset{u}{\text{Min}}
+    & & \mu\\
+%
+    & \text{subject to} 
+    & & f_u(u) <= 0\\
+%
+    &&& \dot x = f(x,u),\\
+%
+    &&& x_0,\ x_f.
+\end{align}
+
+\section{Straight-line braking}
+For straight-line braking, the following constraints are set up:
+\begin{align}
+    f_u(u): && 0 \geq F_x &\leq -F_{\text{max}} & F_y &= 0,\\
+    \dot x = f(x,u): && \dot x &= v_x, & \dot y &= v_y, & \dot v_x &= \frac{F_x}{m}, & \dot v_y &= \frac{F_y}{m},\\
+    x_0,\ x_f: && x(t_o) &= 0, & y(t_o) &= 0, & v_x(t_o) &= v_o, & v_y(t_o) &= 0,\\
+    && x(t_f) &= x_f, & y(t_f) &= 0, & v_x(t_f) &= 0, & v_y(t_f) &= 0,
+\end{align}
+where $F_{\text{max}} = \mu m g$. The parameters of the vehicle are presented in Table~\ref{tab:brake_evade_params}.
+
+The numerical verification for the break or evade criteria for straight-line braking is presented in Table~\ref{tab:brake_evade_straight_line_braking}.
+
+\begin{table}[h!]
+    \begin{subtable}{0.4\textwidth}
+        \begin{tabular}{c|c}
+            Parameters & Value \\
+            \hline
+            $m$ & 2000\,kg \\
+            $g$ & 9.81\,m/s\textsuperscript{2} \\
+        \end{tabular}
+        \caption{Vehicle PM parameters.}
+        \label{tab:brake_evade_params}
+    \end{subtable}
+    \hfill
+    \begin{subtable}{0.6\textwidth}
+        \begin{tabular}{c|c|c|c}
+            & & Analytical & Simulation\\
+            & $x_f$ & $\mu$ & $\mu$ \\
+            % [m] & [-] & [m] & [-] \\
+            \hline
+            Dry Asphalt & 20.3\,m & 1 & 1.0043\\
+            Wet Asphalt & 34\,m & 0.6 & 0.5996\\
+            Ice Asphalt & 68\,m & 0.3 & 0.2998\\
+        \end{tabular}
+        \caption{Numerical and analytical solutions for road friction for straight-line braking with $v_0 = 20$\,m/s.}
+        \label{tab:brake_evade_straight_line_braking}
+    \end{subtable}
+    \caption{Brake or evade for straight-line braking.} 
+    \label{tab:brake_evade_straight}
+\end{table}
+
+\subsection{Code}
+The source code for this problem can be found at \newline \href{https://github.com/arvba41/optimal_vehicle_maneuvers/tree/main/uppgift/ugf1}{https://github.com/arvba41/optimal\_vehicle\_maneuvers}.
+
+\section{Evading}
+This section presents the numerical verification of evading criteria considering a PM.
+
+\subsection{Wet asphalt maximum obstacle height}
+To verify the largest obstacle that can be avoided without any braking on wet asphalt,the following OCP is formulated:
+\begin{align}
+    & \underset{u}{\text{Max}}
+    & & & y(t_f)\\
+%
+    & \text{subject to} 
+    & & & F_x &= 0 &0 \leq F_y &\leq F_{\text{max}},\\
+%
+    &&& & \dot x &= v_x, & \dot y &= v_y, & \dot v_x &= \frac{F_x}{m}, & \dot v_y &= \frac{F_y}{m},\\
+%
+    &&& & x(t_o) &= 0, & y(t_o) &= 0, & v_x(t_o) &= v_o, & v_y(t_o) &= 0,\\
+    &&& & x(t_f) &= x_f,
+\end{align}
+where $F_{\text{max}} = \mu m g$, and the vehicle parameters are presented in Table~\ref{tab:brake_evade_params}.
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{c|c|c|c|c}
+        & & & Analytical & Simulation\\
+        $x_f$ & $v_0$ & $\mu$ & $y(t_f)$ & $y(t_f)$ \\
+        % [m] & [-] & [m] & [-] \\
+        \hline
+        34\,m & 20\,m/s & 0.6 & 8.5\,m & 8.5053\,m \\
+    \end{tabular}
+    \caption{Numerical and analytical solutions for maximum obstacle height that a vehicle can avoid.}
+\end{table}
+\subsection{Minimum required friction}
+To verify the minimum required friction to avoid an obstacle with a height of 1.7\,m at a distance of 34\,m, the following optimization problem was formulated:
+\begin{align}
+    & \underset{u}{\text{Min}}
+    & & & \mu\\
+%
+    & \text{subject to} 
+    & & & F_x &= 0 &0 \leq F_y &\leq F_{\text{max}},\\
+%
+    &&& & \dot x &= v_x, & \dot y &= v_y, & \dot v_x &= \frac{F_x}{m}, & \dot v_y &= \frac{F_y}{m},\\
+%
+    &&& & x(t_o) &= 0, & y(t_o) &= 0, & v_x(t_o) &= v_o, & v_y(t_o) &= 0,\\
+    &&& & x(t_f) &= x_f, & y(t_f) &= y_f,
+\end{align}
+where $F_{\text{max}} = \mu m g$, and the vehicle parameters are presented in Table~\ref{tab:brake_evade_params}.
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{c|c|c|c|c}
+        & & & Analytical & Simulation\\
+        $x_f$ & $y_f$ & $v_0$ & $y(t_f)$ & $y(t_f)$ \\
+        % [m] & [-] & [m] & [-] \\
+        \hline
+        34\,m & 1.7\,m & 20\,m/s & 0.12 & 0.1199 \\
+    \end{tabular}
+    \caption{Numerical and analytical solutions for the minimum required friction to avoid an obstacle.}
+\end{table}
+\subsection{Minimum distance to object}
+To verify the minimum distance to an object with a height of 1.7\,m on wet asphalt, the following optimization problem was formulated:
+\begin{align}
+    & \underset{u}{\text{Max}}
+    & & & x(t_f)\\
+%
+    & \text{subject to} 
+    & & & F_x &= 0 &0 \leq F_y &\leq F_{\text{max}},\\
+%
+    &&& & \dot x &= v_x, & \dot y &= v_y, & \dot v_x &= \frac{F_x}{m}, & \dot v_y &= \frac{F_y}{m},\\
+%
+    &&& & x(t_o) &= 0, & y(t_o) &= 0, & v_x(t_o) &= v_o, & v_y(t_o) &= 0,\\
+    &&& & y(t_f) &= y_f,
+\end{align}
+where $F_{\text{max}} = \mu m g$, and the vehicle parameters are presented in Table~\ref{tab:brake_evade_params}.
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{c|c|c|c|c}
+        & & & Analytical & Simulation\\
+        $\mu$ & $y_f$ & $v_0$ & $x(t_f)$ & $x(t_f)$ \\
+        % [m] & [-] & [m] & [-] \\
+        \hline
+        0.6 & 1.7\,m & 20\,m/s & 15.2\,m & 15.2006\,m\\
+    \end{tabular}
+    \caption{Numerical and analytical solutions for the maximum distance to an obstacle that can be avoided.}
+\end{table}

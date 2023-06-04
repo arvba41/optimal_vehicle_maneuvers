@@ -1,6 +1,6 @@
 clear all; clc;
 
-% load('prevsol_STMdl___rBrk.mat');
+load('prevsol_STMdl___rBrk.mat');
 
 % load('prevsol_STMdl___rBrk_temp.mat');
 

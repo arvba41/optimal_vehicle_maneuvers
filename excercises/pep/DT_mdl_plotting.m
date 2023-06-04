@@ -1,3 +1,6 @@
+load('prevsol_DTMdl___rBrk.mat');
+load('max_data.mat');
+
 textwidth = 15;
 textheight = 13;
 golden_ratio = (1 + sqrt(5)) / 2;
@@ -21,7 +24,7 @@ for ii = 0:1:round(t(end))
     
     yaw = interp1(t,prob1.psi,ii); % yaw at time instant t
     
-    [xval, yval] = VehicleShapeNew(xi,yi,yaw,lf+lr,w);
+    [xval, yval] = VehicleShapeNew(xi,yi,yaw,1.3+1.5,0.8);
 
     plot(xval, yval, 'b-'); % Plotting line segment
 end
