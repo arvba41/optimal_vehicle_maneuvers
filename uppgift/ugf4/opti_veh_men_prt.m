@@ -9,7 +9,7 @@ g = 9.8;            % acceleration due to gravity
 Xa = Xfin+5;            % center of the elipse
 R1 = 5;             % radius of elipse in x direction
 R2 = 3;             % radius of elipse in x direction
-pow = 12;            % curvature of elipse 
+pow = 20;            % curvature of elipse 
 
 Ymax = 4;           % upper limit for the y direction
 vxinit = 20;        % initial speed x direction
@@ -163,4 +163,4 @@ disp(['Minimum friction required (analytical):', num2str(mu_ana)]);
 disp(['Minimum friction required (simulation):', num2str(mu_sim)]);
 
 %% plots for the report
-% report_plots;
+report_plots;

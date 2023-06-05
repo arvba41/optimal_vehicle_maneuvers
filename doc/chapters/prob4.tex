@@ -29,7 +29,7 @@ is the obstacle, $F_{\text{max}} = \mu m g$, and the vehicle parameters are pres
             \hline
             $R_1$ & 5 \\
             $R_2$ & 3 \\
-            $n$ & 12 \\
+            $n$ & 20 \\
         \end{tabular}
         \caption{Vehicle PM and obstacle parameters.}
         \label{tab:num_sol_opt_avoid_PM_params}
@@ -41,7 +41,7 @@ is the obstacle, $F_{\text{max}} = \mu m g$, and the vehicle parameters are pres
             A & B & $\mu$ & $\mu$ \\
             % [m] & [-] & [m] & [-] \\
             \hline
-            20.5047\,m & 2.9012\,m & 0.5412 & 0.5433
+            20.5047\,m & 2.9012\,m & 0.5546 & 0.5583
         \end{tabular}
         \caption{Numerical and analytical solutions for minimum road friction for optimal obstacle with $v_0 = 20$\,m/s.}
         \label{tab:num_sol_opt_avoid_PM_res}
@@ -67,7 +67,7 @@ Now, $\mu$ is calculated using
 The comparison between the optimal and analytically calculated $\mu$ is presented in Table~\ref{tab:num_sol_opt_avoid_PM_res}.
 
 \section{Code}
-The source codes for this problem can be found at \newline \href{https://github.com/arvba41/optimal_vehicle_maneuvers/tree/main/uppgift/ugf2}{https://github.com/arvba41/optimal\_vehicle\_maneuvers}.
+The source codes for this problem can be found at \newline \href{https://github.com/arvba41/optimal_vehicle_maneuvers/blob/main/uppgift/ugf4/opti_veh_men_prt.m}{https://github.com/arvba41/optimal\_vehicle\_maneuvers}.
 
 The detailed results of the optimization problem are presented in Figure~\ref{fig:num_sol_opt_avoid_PM_res_pic}.
 \begin{figure}[h!]

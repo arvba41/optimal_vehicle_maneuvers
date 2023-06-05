@@ -171,7 +171,7 @@ xlim([0 oplsol.tvec(idx)]);
 
 idx = find(round(elps(oplsol.x,oplsol.y),1) == 0);
 
-gamma = atan(mean(oplsol.y(idx))/mean(oplsol.x(idx)));
+gamma = atan(mean(oplsol.y(idx))/diff(oplsol.x(idx)));
 
 theta = (gamma + asin(3*sin(gamma)))/2;
 
