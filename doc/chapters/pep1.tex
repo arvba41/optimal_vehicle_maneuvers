@@ -310,7 +310,7 @@ The road friction is changed to wet asphalt and snow conditions, the results are
 
 \clearpage
 The results of the final time and speed for the time and velocity optimal problem (Min $t$, and Max $v_f$) at the end of the maneuver for different road conditions are summarized in Table~\ref{tab:opt_res_num_pep2_fric}. 
-From the table, it is clear that at $Y_o = 0$, Case-V (pendulum turn case) is about 1.5\,m/s faster but takes about 1\,s more to complete the maneuver. 
+
 \begin{table}[h!]
     \centering
     \begin{tabular}{c|c|c|c|c|c|c|c}
@@ -325,6 +325,12 @@ From the table, it is clear that at $Y_o = 0$, Case-V (pendulum turn case) is ab
     \caption{Time and speed for the ST-model with LT for time and velocity optimized scenarios at the end of the maneuver, $Y_o = 0$, with different road frictions.}
     \label{tab:opt_res_num_pep2_fric}
 \end{table}
+
+From Figure~\ref{fig:pep2_FricComp_detailplot} it is clear that at no point in time is the velocity of the vehicle for vopt greater than topt but they do get close during snow conditions. This implies that the pendulum turn is not 'viable', even if there is a long straight after the maneuver. However, with a 9-DoF model with load transfer, one can perhaps observe the difference in acceleration of the pendulum turn (vopt) when compared to the time-optimal solution. 
+
+\section*{Code}
+
+The source codes for this problem can be found at \newline \href{https://github.com/arvba41/optimal_vehicle_maneuvers/blob/main/uppgift/pep1}{https://github.com/arvba41/optimal\_vehicle\_maneuvers}.
 
 % \subsection{Effect of change in inertia}
 % The mass and the inertia of the vehicle are increased by 12\,\%, and the results are shown in Figures~\ref{fig:pep2_FricComp_posplot} and~\ref{fig:pep2_FricComp_posplot} From the figures, it is clear that the time and velocity optimized trajectories and velocity profiles are closer than for the case with dry and wet asphalt. 

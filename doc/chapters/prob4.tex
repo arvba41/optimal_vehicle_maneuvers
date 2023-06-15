@@ -50,6 +50,8 @@ is the obstacle, $F_{\text{max}} = \mu m g$, and the vehicle parameters are pres
     \label{tab:num_sol_opt_avoid_PM}
 \end{table}
 
+The optimal control problem (OCP), is solved with direct multiple-shooting with 60 control intervals for the optimization using Matlab and CasADi. The ODE was solved using the fixed-step Runge-Kutta 4 integration method. 
+
 \section{Analytical solution}
 The analytical solution is determined by first calculating $\gamma$, 
 \begin{align}

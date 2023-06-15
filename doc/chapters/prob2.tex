@@ -18,7 +18,7 @@ where $F_{x(f)}^*$ and $F_{x(r)}^*$ are the inputs to the model.
 
 The hairpin is modeled as two ellipses,
 \begin{align}
-    \frac{x}{R_1^i} + \frac{y}{R_2^i} & \geq 1, & \frac{x}{R_1^o} + \frac{y}{R_2^o} & \leq 1.
+    \left(\frac{x}{R_1^i}\right)^n + \left(\frac{y}{R_2^i}\right)^n & \geq 1, & \left(\frac{x}{R_1^o}\right)^n + \left(\frac{y}{R_2^o}\right)^n & \leq 1.
     % \frac{x}{R_1^î} + \frac{y}{R_2^i} &\geq 1 \ \text{Inner ellipse},
     % \frac{x}{R_1^o} + \frac{y}{R_2^o} &\leq 1 \ \text{outer ellipse}.
 \end{align}
@@ -28,6 +28,8 @@ The nominal normal force $F_z$ resting on the respective wheel in the steady sta
 \begin{align}
     F_{z(1)} &= \frac{1}{2}\,mg\frac{l_r}{l_f+l_r}, & F_{z(2)} &= \frac{1}{2}\,mg\frac{l_r}{l_f+l_r}, & F_{z(3)} &= \frac{1}{2}\,mg\frac{l_f}{l_f+l_r}, & F_{z(4)} &= \frac{1}{2}\,mg\frac{l_f}{l_f+l_r}. \label{eq:prob2_maxforce_DT}
 \end{align}
+
+The optimal control problem (OCP), is solved with direct multiple-shooting with 60 control intervals for the optimization using Matlab and CasADi. The ODE was solved using the fixed-step Runge-Kutta 4 integration method. 
 
 \section{Constrains}
 \begin{description}
@@ -73,6 +75,7 @@ The vehicle parameters and constraints for the the optimal control problem are p
             $R_2^i$ & 50\,m \\
             $R_1^o$ & 7\,m \\
             $R_2^o$ & 55\,m \\
+            $n$ & 4
         \end{tabular}
         \caption{Hairpin parameters}
     \end{subtable}

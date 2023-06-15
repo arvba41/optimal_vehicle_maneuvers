@@ -1,5 +1,5 @@
 \chapter[Particle model optimization]{Friction-limited particle with and without rate-limitation}
-Investigating the friction-limited particle and the friction-limited particle with rate-limited direction control with a comparison. 
+Investigating the friction-limited particle and the friction-limited particle with rate-limited direction control. 
 
 The optimization problems follow the following general equation structure: 
 \begin{align}
@@ -15,7 +15,7 @@ The optimization problems follow the following general equation structure:
 %
     &&& x_0,\ x_f,
 \end{align}
-where $u$ is(are) the optimization variable(s), $J$ is the cost function, $f_u(u) <= 0$ and $f_o(x,u) <= 0$ denote the constraints on the $u$ and the states $x$, $\dot x = f(x,u)$ are the ODEs or dynamic constraints, and $x_0,\ \&\ x_f$ are the boundry conditions. 
+where $u$ is(are) the optimization variable(s), $J$ is the cost function, $f_u(u) <= 0$ and $f_o(x,u) <= 0$ denote the constraints on the controls $u$ and the states $x$, $\dot x = f(x,u)$ are the ODEs or dynamic constraints, and $x_0,\ \&\ x_f$ are the boundry conditions. 
 
 \begin{description}
     \item[Opimization variables:] the longitudinal and lateral forces $u_x$ and $u_y$ on the vehicle. 
@@ -25,7 +25,7 @@ where $u$ is(are) the optimization variable(s), $J$ is the cost function, $f_u(u
     \end{equation*}
     The force limit on the vehicle for the rate-limited direction control is given by \begin{align*}
         u_1^2 \leq (\mu m g)^2.
-    \end{align*}\par The obstacle is given by the following equation:
+    \end{align*}\par The obstacle is given by 
     \begin{align*}
         \left(\frac{x - X_a}{R_1}\right)^n + \left(\frac{y}{R_2}\right)^n \geq 1
     \end{align*}
@@ -42,7 +42,7 @@ where $u$ is(are) the optimization variable(s), $J$ is the cost function, $f_u(u
         m\,\dot v_y &= u_1\,\sin\left(\delta\right), \\
         \dot \delta &= u_2. \\
     \end{align*}
-    \item[Miscellaneous constraints:] In order to ensure that the solution is within the desired operating space, certain miscellaneous constraints are included such as, \begin{align*}
+    \item[Miscellaneous constraints:] To ensure that the solution is within the desired operating space, certain miscellaneous constraints are included such as, \begin{align*}
         x_0 \leq x \leq x_f\\
         y_0 \leq y \leq y_f\\
         y_{min} \leq y \leq y_{max} \\
@@ -81,7 +81,7 @@ The model, optimization, and obstacle parameters are presented in Tables~\ref{ta
             $v_x$ & 40\,km/h\\
             $v_y$ & 0\,km/h
         \end{tabular}
-        \caption{Initial parameters}
+        \caption{Optimization parameters}
         \label{tab:flp_optparams}
     \end{subtable}
     \hfill
@@ -102,7 +102,7 @@ The model, optimization, and obstacle parameters are presented in Tables~\ref{ta
     \label{tab:temps}
 \end{table}
 
-The optimal control problem (OCP), was solved with direct multiple-shooting with 40 control intervals for the optimization using Matlab and CasADi. The ODE was solved using the fixed-step Runge-Kutta 4 integration method. 
+The optimal control problem (OCP), is solved with direct multiple-shooting with 40 control intervals for the optimization using Matlab and CasADi. The ODE was solved using the fixed-step Runge-Kutta 4 integration method. 
 
 The results of the optimization are presented in 
 
@@ -175,7 +175,7 @@ Additional constraints and initial values for the firc-PM and rate-PM are presen
         However, the computational time can get long with 'bad' initialization conditions. 
         The convergence of this model seems better than the fric-PM.
         
-        It is worth mentioning that the terms 'improved convergence' and 'better convergence' mean the ability of the solver to produce an 'optimal solution found' even with ridiculous guesses. However, one should take care not to fall into local minima pits. 
+        It is worth mentioning that the terms 'improved convergence' and 'better convergence' mean the ability of the solver to produce an 'optimal solution found' even with ridiculous guesses. 
     }%
 }
 

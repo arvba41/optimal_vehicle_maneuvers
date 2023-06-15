@@ -35,6 +35,7 @@ This is rather conservative and aids the vehicle to avoid the obstacle.
 $\gamma$, in this case, is 9.5$^\circ$ ($\geq 16.7^\circ$), and considering wet asphalt (see \ref{sec:prob3_STrbrk}), then evading is a better option. 
 It is worth mentioning that $\gamma$ is calculated using the obstacle height rather than the lateral distance where the vehicle and the obstacle intersect. 
 This is to provide a better chance for the vehicle to avoid the obstacle. 
+The vehicle model parameters are selected for wet asphalt road conditions.
 
 The angle of the obstacle ($\theta_v$) is the angle between the component of the global force ($F_{x}$) and the velocity vector and is calculated using 
 \begin{align}
@@ -115,6 +116,8 @@ The constraints to the optimization problem are
     \end{subtable}
     \caption{Obstacle-, vehicle-parameters and optimization constrains.}
 \end{table}
+
+The optimal control problem (OCP), is solved with direct multiple-shooting with 100 control intervals for the optimization using Matlab and CasADi. The ODE was solved using the fixed-step Runge-Kutta 4 integration method. 
 
 The optimal trajectories for the three OCPs are shown in Figure~\ref{fig:prob6_traj}. From the figure, it is clear that the trajectories for the three cases are similar. An expected solution should be that the Fcopt and Fyopt solution avoids the obstacle with some room to spare. It is difficult to say why this is happening. However, a clue is when comparing the solution of Fcyopt and OCP solution with the cost function to maximize the input velocity (vopt). In this case, the vopt and Fcopt should have identical trajectories and this is shown in Figure~\ref{fig:prob6_v2_traj}. 
 \begin{figure}[h!]
@@ -214,4 +217,4 @@ The forces are shown in Figure~\ref{fig:prob6_forces}. From the figure, $F_{c,y}
 % \end{figure}
 
 \subsection{Code}
-The source codes for this problem can be found at \newline \href{https://github.com/arvba41/optimal_vehicle_maneuvers/blob/main/uppgift/ugf5/force_centric_and_scenario_centric_PM.m}{https://github.com/arvba41/optimal\_vehicle\_maneuvers}.
+The source codes for this problem can be found at \newline \href{https://github.com/arvba41/optimal_vehicle_maneuvers/blob/main/uppgift/ugf5/Max_force_centric_DT_mdl_noFdyn.m}{https://github.com/arvba41/optimal\_vehicle\_maneuvers}.
