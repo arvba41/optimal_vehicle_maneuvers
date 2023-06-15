@@ -1,0 +1,55 @@
+\begin{frame}{Constraints and more}
+    \begin{columns}
+        % \begin{column}{0.4\textwidth}
+        %     \textbf{Constraints}
+        %     \begin{align*}
+        %         -\delta_{\text{max}} &\leq \delta \leq \delta_{\text{max}},\\
+        %         -\dot\delta_{\text{max}} &\leq \dot\delta \leq \dot\delta_{\text{max}},\\
+        %         -F_{x(f),\text{max}} &\leq F_{x(f)} \leq F_{x(f),\text{max}},\\
+        %         -F_{x(r),\text{max}} &\leq F_{x(r)} \leq 0,\\
+        %         -F_{x(f),\text{max}} &\leq F_{x(f)}^* \leq F_{x(f),\text{max}},\\
+        %         -F_{x(r),\text{max}} &\leq F_{x(r)}^* \leq 0,\\
+        %         v_x &> 0\\
+        %         0 &\leq \beta_x \leq 1\\
+        %         0 &\leq \beta_y \leq 1,
+        %     \end{align*}
+        % \end{column}
+        \begin{column}{0.3\textwidth}
+            \textbf{Hairpin}
+            \begin{align*}
+                \left(\frac{x-X_\text{a}}{R_1^i}\right)^n + \left(\frac{y}{R_2^i}\right)^n & \geq 1, \\
+                \left(\frac{x-X_a}{R_1^o}\right)^n + \left(\frac{y}{R_2^o}\right)^n & \leq 1.
+            \end{align*}
+            
+            \vspace{10pt}
+            \textbf{Slack Variables}
+            \begin{align*}
+                0 \leq \beta_x &\leq 1,\\
+                0 \leq \beta_y &\leq 1,\\
+                x_f - \beta_y, \leq X_p(t_f) &\leq x_f + \beta_x,\\
+                y_f - \beta_y, \leq Y_p(t_f) &\leq y_f + \beta_y,
+            \end{align*}
+        \end{column}
+        \begin{column}{0.2\textwidth}
+            \begin{tabular}{c|c}
+                Parameter & Value \\
+                \hline
+                $\delta_{\text{max}}$ & 30$^\circ$ \\
+                $\dot \delta_{\text{max}}$ & 45$^\circ$/s\\
+                $\tau_f$ & 0.1\,s\\
+                $X_a$ & 10\,m\\
+                $R_1^i$ & 2\,m\\
+                $R_2^i$ & 50\,m\\
+                $R_1^o$ & 7\,m\\
+                $R_2^o$ & 55\,m\\
+                $n$ & 4\\
+                \hline
+                $m$ & 2100\,kg\\
+                $l_f$ & 1.3\,m\\
+                $l_r$ & 1.5\,m\\
+                $g$ & 9.82\,m/s\textsuperscript{2}\\
+                $I_{zz}$ & 3900\,Kgm\textsuperscript{2}\\
+            \end{tabular}
+        \end{column}
+    \end{columns}
+\end{frame}

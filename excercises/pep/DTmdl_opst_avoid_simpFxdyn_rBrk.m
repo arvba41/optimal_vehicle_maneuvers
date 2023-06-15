@@ -1,6 +1,6 @@
 clear all; clc;
 
-load('prevsol_DTMdl___rBrk.mat');
+% load('prevsol_DTMdl___rBrk.mat');
 
 % load('prevsol_STMdl___rBrk_temp.mat');
 
@@ -26,10 +26,10 @@ params.Iw = 4;
 params.Re = 0.3;
 
 % start and final distance
-Xsrt    = 5;
-Xfin    = 20/2;
+Xsrt    = 0;
+Xfin    = 20;
 Xend    = 2*Xfin - Xsrt;
-Ystrt   = 1;
+Ystrt   = 0;
 Yfin    = 1;
 
 % obstacle parameters
@@ -107,9 +107,9 @@ betax = opti.variable();  % approximation parameters
 betay = opti.variable();  % approximation parameters
 
 % ---- objective          ---------
-J = (T + 0.5*(betax + betay)); % minimum time
+% J = (T + 0.5*(betax + betay)); % minimum time
 % J = -(vx(end) + 0.5*(betax + betay)); % maximum exit speed
-% J = T;
+J = T;
 opti.minimize(J);         % minimize time
 
 % ---- dynamic constraints -----
@@ -164,7 +164,7 @@ Fy04 = @(vx,vy,r,delta,Fxf,Fxr) Dyr.*sin(Cyr.*atan(Byr.*alpha4(vx,vy,r,delta,Fxf
 Fy1 = @(vx,vy,r,delta,Fxf,Fxr) Fy01(vx,vy,r,delta,Fxf,Fxr).*sqrt(1 - (Fxf/Dxf).^2);
 Fy2 = @(vx,vy,r,delta,Fxf,Fxr) Fy02(vx,vy,r,delta,Fxf,Fxr).*sqrt(1 - (Fxf/Dxf).^2);
 Fy3 = @(vx,vy,r,delta,Fxf,Fxr) Fy03(vx,vy,r,delta,Fxf,Fxr).*sqrt(1 - (Fxr/Dxr).^2);
-Fy4 = @(vx,vy,r,delta,Fxf,Fxr) Fy03(vx,vy,r,delta,Fxf,Fxr).*sqrt(1 - (Fxr/Dxr).^2);
+Fy4 = @(vx,vy,r,delta,Fxf,Fxr) Fy04(vx,vy,r,delta,Fxf,Fxr).*sqrt(1 - (Fxr/Dxr).^2);
 % Fy0f = @(vx,vy,r,delta,Fxf,Fxr) Dyf.*sin(Cyf.*atan(Byf.*alphaf(vx,vy,r,delta,Fxf,Fxr)-Eyf.*(Byf.*alphaf(vx,vy,r,delta,Fxf,Fxr) - atan(Byf.*alphaf(vx,vy,r,delta,Fxf,Fxr)))));
 % Fy0r = @(vx,vy,r,delta,Fxf,Fxr) Dyr.*sin(Cyr.*atan(Byr.*alphar(vx,vy,r,delta,Fxf,Fxr)-Eyr.*(Byr.*alphar(vx,vy,r,delta,Fxf,Fxr) - atan(Byr.*alphar(vx,vy,r,delta,Fxf,Fxr)))));
 % Fyf = @(vx,vy,r,delta,Fxf,Fxr) Fy0f(vx,vy,r,delta,Fxf,Fxr).*sqrt(1 - (Fxf/Dxf).^2);
@@ -239,16 +239,16 @@ end
 % % opti.subject_to(obst(xpos,Xfin,Owdt,Osrp,Ohgt,-2*Pwid)<= ypos <= obst(xpos,Xfin,Owdt+Pwid,Osrp,Ohgt,-Pwid)); % ensure that we are far from the elipse
 % opti.subject_to(obst(xpos,Xfin,Owdt,Osrp,Ohgt,Pwid)<= ypos); % ensure that we are far from the elipse
 %----------- elipses 
-path_in = @(x,y) ((x-Xa)/R1).^pow + (y/R2).^pow;
-path_out = @(x,y) ((x-Xa)/(R1+Owdt)).^pow + (y/(R2+Owdty)).^pow;
-opti.subject_to(path_in(xpos,ypos) >= 1);
-opti.subject_to(path_out(xpos,ypos) <= 1);
+% path_in = @(x,y) ((x-Xa)/R1).^pow + (y/R2).^pow;
+% path_out = @(x,y) ((x-Xa)/(R1+Owdt)).^pow + (y/(R2+Owdty)).^pow;
+% opti.subject_to(path_in(xpos,ypos) >= 1);
+% opti.subject_to(path_out(xpos,ypos) <= 1);
 
-opti.subject_to((Xend - betax) <= xpos(N+1) <= (Xend + betax));
-opti.subject_to((Yfin - betay) <= ypos(N+1) <= (Yfin + betay));
+% opti.subject_to((Xend - betax) <= xpos(N+1) <= (Xend + betax));
+% opti.subject_to((Yfin - betay) <= ypos(N+1) <= (Yfin + betay));
 
-opti.subject_to(0 <= betax <= 1);
-opti.subject_to(0 <= betay <= 1);
+% opti.subject_to(0 <= betax <= 1);
+% opti.subject_to(0 <= betay <= 1);
 
 % ---- boundary conditions --------
 % define all the initial values here
@@ -256,8 +256,8 @@ opti.subject_to(0 <= betay <= 1);
 opti.subject_to(xpos(1)==Xsrt);        
 opti.subject_to(ypos(1)==Ystrt);       
 % position boundry conditions (finish)
-% opti.subject_to(xpos(N+1)==Xend); 
-% opti.subject_to(ypos(N+1)==Yfin);      
+opti.subject_to(xpos(N+1)==Xend); 
+opti.subject_to(ypos(N+1)==Yfin);      
 % speed boundry conditions (start)
 opti.subject_to(vx(1)== Vxstart);   
 opti.subject_to(vy(1)==0);          
@@ -299,49 +299,49 @@ opti.subject_to(-Dxr*0.99<=Fxrval<=0);      % rear wheel braking only
 opti.subject_to(-Dxf*0.99<=Fxf<=Dxf*0.99);    
 opti.subject_to(-Dxr*0.99<=Fxr<=0);      % rear wheel braking only
 
-% ---- initial values for solver ---
-% define all the initial values here 
-% position initial values 
-opti.set_initial(xpos, prob1.x);
-opti.set_initial(ypos, prob1.y);
-% speed initial values 
-opti.set_initial(vx, prob1.vx);
-opti.set_initial(vy, prob1.vy);
-% yaw rate initial values 
-opti.set_initial(r, prob1.r);
-% steering angle and rate initial values 
-opti.set_initial(delta, prob1.delta);
-opti.set_initial(ddelta, prob1.ddelta);
-% yaw initial values 
-opti.set_initial(psi, prob1.psi);
-% time initial value
-opti.set_initial(T, prob1.topt);
-% fources initial value
-opti.set_initial(Fxfval, prob1.Fxfval);
-opti.set_initial(Fxrval, prob1.Fxrval);
+% % % % % % ---- initial values for solver ---
+% % % % % % define all the initial values here 
+% % % % % % position initial values 
+% % % % % opti.set_initial(xpos, prob1.x);
+% % % % % opti.set_initial(ypos, prob1.y);
+% % % % % % speed initial values 
+% % % % % opti.set_initial(vx, prob1.vx);
+% % % % % opti.set_initial(vy, prob1.vy);
+% % % % % % yaw rate initial values 
+% % % % % opti.set_initial(r, prob1.r);
+% % % % % % steering angle and rate initial values 
+% % % % % opti.set_initial(delta, prob1.delta);
+% % % % % opti.set_initial(ddelta, prob1.ddelta);
+% % % % % % yaw initial values 
+% % % % % opti.set_initial(psi, prob1.psi);
+% % % % % % time initial value
+% % % % % opti.set_initial(T, prob1.topt);
+% % % % % % fources initial value
+% % % % % opti.set_initial(Fxfval, prob1.Fxfval);
+% % % % % opti.set_initial(Fxrval, prob1.Fxrval);
 
 % ---- initial values for solver ---
-% % % % % Very first time 
-% % % % % position initial values 
-% % % % % opti.set_initial(x, prob1.x);
-% % % % % opti.set_initial(y, prob1.y);
-% % % % % speed initial values 
-% % % % opti.set_initial(vx, Vxstart);
-% % % % % opti.set_initial(vy, prob1.vy);
-% % % % % yaw rate initial values 
-% % % % opti.set_initial(r, 0);
-% % % % % steering angle and rate initial values 
-% % % % opti.set_initial(delta, 0);
-% % % % opti.set_initial(ddelta, 0);
-% % % % % yaw initial values 
-% % % % opti.set_initial(psi, 0);
-% % % % % time initial value
-% % % % opti.set_initial(T, 10);
-% % % % % fources initial value
-% % % % opti.set_initial(Fxf, 0);
-% % % % opti.set_initial(Fxr, 0);
-% % % % opti.set_initial(Fxfval, 0);
-% % % % opti.set_initial(Fxrval, 0);
+% Very first time 
+% position initial values 
+% opti.set_initial(x, prob1.x);
+% opti.set_initial(y, prob1.y);
+% speed initial values 
+opti.set_initial(vx, Vxstart);
+% opti.set_initial(vy, prob1.vy);
+% yaw rate initial values 
+opti.set_initial(r, 0);
+% steering angle and rate initial values 
+opti.set_initial(delta, 0);
+opti.set_initial(ddelta, 0);
+% yaw initial values 
+opti.set_initial(psi, 0);
+% time initial value
+opti.set_initial(T, 10);
+% fources initial value
+opti.set_initial(Fxf, 10);
+opti.set_initial(Fxr, 0);
+opti.set_initial(Fxfval, 10);
+opti.set_initial(Fxrval, 0);
 
 % ---- maximum iterations ----
 p_opts = struct('expand',true);
@@ -446,7 +446,7 @@ for ii = 0:1:round(t(end))
     
     [xval, yval] = VehicleShapeNew(xi,yi,yaw,lf+lr,w);
 
-    plot(xval, yval, 'b-','LineWidth',4); % Plotting line segment
+    plot(xval, yval, 'b-','LineWidth',2); % Plotting line segment
 end
 
 hold off; xlim([0 inf])

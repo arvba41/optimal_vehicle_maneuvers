@@ -1,23 +1,24 @@
 clear all; clc;
 
 % load('racing_line_sim\racing_line_full_150m_dbl_harpin.mat');
+load('sol_rating_line_PT.mat');
 
 %% Problem: Double lane change, ISO-3888-2 (Älgtest, moose test, elk test)
 % Consider driving at 20 m/s (72 km/h).
 % For wet asphalt, µ = 0.6, the braking distance is 34 m.
 
 % Given values
-v = 20; % m/s
+v = 8; % m/s
 A = 12; % m
 
 % initial values
-Xps = -7; 
+Xps = -52; 
 Yps = 0;
 Vxs = 0; 
 Vys = 50/3.6;
 
 % boundry values
-Xpf = -7;
+Xpf = -53;
 Ypf = 0;
 
 % parameters
@@ -26,10 +27,10 @@ params.g = 9.81;
 params.mu = 1.2;
 
 % path
-R1i = 2;
-R2i = 150;
-R1o = 7;
-R2o = 155;
+R1i = 50;
+R2i = 50;
+R1o = 55;
+R2o = 55;
 
 %% Optimization problem 1: racing line
 
@@ -71,10 +72,12 @@ opti.subject_to(path(xpos,ypos,R1o,R2o) <= 1);
 % opti.subject_to(xpos(1)==Xps);        
 opti.subject_to(ypos(1)==Yps);  
 % opti.subject_to(xpos(N+1)==Xpf);        
-% opti.subject_to(xpos(N+1)==xpos(1));
+opti.subject_to(xpos(N+1)==xpos(1));
 opti.subject_to(ypos(N+1)==Ypf);  
 % opti.subject_to(vx(1)==Vxs);   
 % opti.subject_to(vy(1)==Vys);   
+opti.subject_to(vx(1)==vx(N+1));   
+opti.subject_to(vy(1)==vy(N+1));   
 
 % ---- force constrains ----
 umax = params.mu*params.g*params.m;
@@ -84,17 +87,24 @@ opti.subject_to((Fx.^2 + Fy.^2)<=umax^2);
 opti.subject_to(T>=0); % Time must be positive
 v = vx.^2 + vy.^2;
 opti.subject_to(v>=0); % velocity must be positive
-opti.subject_to(v>=0); % velocity limit
-opti.subject_to(vx(1) == vx(N+1)); % starting velocities to be equal
-opti.subject_to(vy(1) == vy(N+1)); % starting velocities to be equal
+% opti.subject_to(v>=0); % velocity limit
+opti.subject_to(vx(1) == Vxs); % starting velocities to be equal
+opti.subject_to(vy(1) == Vys); % starting velocities to be equal
 
-% ---- intial guess ----
-opti.set_initial(xpos, prob1.xpos);
-opti.set_initial(ypos, prob1.ypos);
-opti.set_initial(vx, prob1.vx);
-opti.set_initial(vy, prob1.vy);
-opti.set_initial(Fx, prob1.Fx);
-opti.set_initial(Fy, prob1.Fy);
+% % % % % ---- intial guess ----
+% % % % % opti.set_initial(xpos, prob1.xpos);
+% % % % % opti.set_initial(ypos, prob1.ypos);
+% % % % % opti.set_initial(vx, prob1.vx);
+% % % % % opti.set_initial(vy, prob1.vy);
+% % % % % opti.set_initial(Fx, prob1.Fx);
+% % % % % opti.set_initial(Fy, prob1.Fy);
+
+opti.set_initial(xpos, -52);
+opti.set_initial(ypos, 0);
+opti.set_initial(vx, Vxs);
+opti.set_initial(vy, Vys);
+opti.set_initial(Fx, 0);
+opti.set_initial(Fy, 100);
 
 % ---- solve NLP              ------
 opti.solver('ipopt'); % set numerical backend
@@ -109,6 +119,8 @@ prob1.Fx = opti.debug.value(Fx);
 prob1.Fy = opti.debug.value(Fy);
 prob1.topt = opti.debug.value(T); 
 prob1.t = linspace(0,opti.debug.value(T),N+1);
+
+save('sol_rating_line_PT.mat','prob1');
 
 %% plottings
 

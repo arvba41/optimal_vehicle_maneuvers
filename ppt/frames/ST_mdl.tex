@@ -1,0 +1,29 @@
+\begin{frame}
+    \frametitle{ST-model with Pacejka friction ellipses}
+    \begin{block}{}
+        \begin{description}
+            \item[States:] 9, $X_p,\ Y_p,\ \psi,\ v_x,\ v_y,\ r,\ \delta,\ F_{x(f)},\ F_{x(r)}$
+            \item[Inputs:] 3, $\dot \delta,\ F_{x(f)}^*,\ F_{x(r)}^*$
+        \end{description}
+    \end{block}
+    \vspace{10pt}
+    \pause
+    \begin{columns}
+        \begin{column}{0.45\textwidth}
+            Also the friction ellipses 
+            \begin{align*}
+                F_{y(i)} &= F_{y0(i)}\left(\alpha_i\right)\sqrt{1 - \left(\frac{F_{x(i)}}{F_{x0(i)}^{\text   {max}}}\right)}
+            \end{align*}
+        \end{column}\pause
+        \begin{column}{0.45\textwidth}
+            Note that $F_{x(f)}^*,\ F_{x(r)}^*$ are used to generate $F_{x(f)},\ F_{x(r)}$ using
+            \begin{align*}
+                \dot F_{x(i)} = \frac{1}{\tau_f}\left(F_{x(i)} - F_{x(i)}^*\right)
+            \end{align*}
+        \end{column}
+    \end{columns}
+    \vspace{10pt}
+    \begin{alertblock}{}
+        The dangerous \textbf{sqaure root} causes a lot of trouble in optimization.
+    \end{alertblock}
+\end{frame}

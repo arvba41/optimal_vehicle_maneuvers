@@ -315,8 +315,6 @@ for ii = 7:8 % 2:2:4 % 1:2:3 %
 
     linkaxes(a,'x'); clear a
     
-    
-    
 end
 
 % figure(figno-2);

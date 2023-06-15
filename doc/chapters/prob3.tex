@@ -13,10 +13,10 @@ To verify the brake or evade criteria the following OCP was formulated:
     &&& x_0,\ x_f.
 \end{align}
 
-\section{Straight-line braking}
+\section{Straight-line braking}\label{sec:prob3_STrbrk}
 For straight-line braking, the following constraints are set up:
 \begin{align}
-    f_u(u): && 0 \geq F_x &\leq -F_{\text{max}} & F_y &= 0,\\
+    f_u(u): && -F_{\text{max}} \leq F_x &\leq 0 & F_y &= 0,\\
     \dot x = f(x,u): && \dot x &= v_x, & \dot y &= v_y, & \dot v_x &= \frac{F_x}{m}, & \dot v_y &= \frac{F_y}{m},\\
     x_0,\ x_f: && x(t_o) &= 0, & y(t_o) &= 0, & v_x(t_o) &= v_o, & v_y(t_o) &= 0,\\
     && x(t_f) &= x_f, & y(t_f) &= 0, & v_x(t_f) &= 0, & v_y(t_f) &= 0,

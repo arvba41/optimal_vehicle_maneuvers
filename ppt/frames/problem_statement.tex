@@ -1,0 +1,24 @@
+\begin{frame}{Problem Statement}
+    \begin{alertblock}{PEP: Pendulum Turn}
+        Experiment with vehicle parameters (especially inertia) to see if it occurs. (Are many rally drivers wrong?)
+    \end{alertblock}
+    \pause
+    \begin{exampleblock}{}
+        Cost functions:
+        \begin{align*}
+            J &= \begin{cases} 
+                    \text{Min }\quad t + 0.1\left(\beta_x + \beta_y\right) & \text{min } t \\
+                    \text{Max }\quad v_x(t_f) + 0.1\left(\beta_x + \beta_y\right) & \text{max } v_f 
+                 \end{cases}.
+        \end{align*}
+    \end{exampleblock}
+    \begin{align*}
+        & \text{subject to} 
+        & & \dot x = f(x,u), && \text{ODE}\\
+        &&& f_u(u) \leq 0 && \text{Constraints}\\
+    %
+        &&& f_o(x,u) \leq 0 && \text{Path} \\
+    %
+        &&& x_0,\ x_f, && \text{Initial values}
+    \end{align*}
+\end{frame}
