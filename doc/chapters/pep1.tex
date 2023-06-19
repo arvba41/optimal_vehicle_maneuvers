@@ -7,7 +7,7 @@ In an earth-fixed coordinate system, the position ($X_p,\ Y_p$) and orientation 
 \begin{subequations}
     \begin{align}
         \dot X_p &= v_x\cos\left(\psi\right) - v_y\sin\left(\psi\right), \\
-        \dot Y_p &= v_x\cos\left(\psi\right) - v_y\sin\left(\psi\right), \\
+        \dot Y_p &= v_x\sin\left(\psi\right) + v_y\cos\left(\psi\right), \\
         \dot \psi &= r.
     \end{align}
 \end{subequations}
@@ -23,7 +23,7 @@ where
 \begin{subequations}
     \begin{align}
         F_X &= F_{x(f)}\cos\left(\delta\right) - F_{y(f)}\sin\left(\delta\right) + F_{x(r)},\\
-        F_Y &= F_{x(f)}\sin\left(\delta\right) - F_{y(f)}\cos\left(\delta\right) + F_{y(r)},\\
+        F_Y &= F_{x(f)}\sin\left(\delta\right) + F_{y(f)}\cos\left(\delta\right) + F_{y(r)},\\
         M_Z &= l_f\left(F_{x(f)}\sin\left(\delta\right) + F_{y(f)}\cos\left(\delta\right)\right) - l_rF_{y(r)},
     \end{align}
 \end{subequations}
