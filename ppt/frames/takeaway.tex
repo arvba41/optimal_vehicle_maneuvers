@@ -1,0 +1,19 @@
+\begin{frame}{}
+
+    \begin{block}{}
+        Optimizing for Max $v_f$, results in the pendulum turn. \newline However, it is not the fastest. At any point in time (not $t_0$), Min $t$ is always faster.
+    \end{block}
+    \pause
+    \begin{exampleblock}{Are many rally drivers wrong?}
+        Cannot say as of now! We need to do more analysis.
+    \end{exampleblock}
+
+    \pause
+    \begin{itemize}
+        \item Improving the model to include the benefits of "pendulum turn". \par Incorporate a DT-model. \par Norminal forces at steady state on the wheel: \begin{align*}
+            F_{z(i)} &= \frac{\mu m g \pm f(F_{x},F_y)}{L}, & \text{where }&  f(F_{x},F_y) \text{ should be a non-linear function.}
+        \end{align*} \pause
+        \item Rally cars are not the same as stock cars. \par Altering position of the center of gravity (affects LT). \pause
+        \item Pendulum turn is more probably at low frictions (snow, gravel, etc.). 
+    \end{itemize}    
+\end{frame}
