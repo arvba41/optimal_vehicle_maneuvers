@@ -111,7 +111,7 @@ ddelta  = U(1,:);
 Fxfval  = U(2,:);                
 Fxrval  = U(3,:);           
 T = opti.variable();      % final time
-Fz = opti.variable(4,:);  % Forces on the wheels
+Fz = opti.variable(4,N+1);  % Forces on the wheels
 Fz1 = Fz(1,:);  
 Fz2 = Fz(2,:);  
 Fz3 = Fz(3,:);  
@@ -142,7 +142,9 @@ for k=1:N % loop over control intervals
    % get the forces
    [~, ~, Fx, Fy] = DT_model(X(:,k), U(:,k), params,    Fz(:,k));
    
-   % 
+   % updating the normal forces              
+   Fz(:,k+1) = updating_normal_forces(params,   Fx,     Fy);
+   
 end
 
 % ---- obstacle ----
@@ -174,13 +176,18 @@ opti.subject_to(ddelta(1)==0);
 opti.subject_to(psi(1)==0);  
 % opti.subject_to(psi(N+1)==0); 
 
-opti.subject_to(Ecy(1)==0);
+% opti.subject_to(Ecy(1)==0);
 
-% opti.subject_to(Fxf(1)==0);
-% opti.subject_to(Fxr(1)==0);
+opti.subject_to(Fxf(1)==0);
+opti.subject_to(Fxr(1)==0);
 
-% opti.subject_to(Fxfval(1)==0);
-% opti.subject_to(Fxrval(1)==0);
+opti.subject_to(Fxfval(1)==0);
+opti.subject_to(Fxrval(1)==0);
+
+opti.subject_to(Fz1(1)==0);
+opti.subject_to(Fz2(1)==0);
+opti.subject_to(Fz3(1)==0);
+opti.subject_to(Fz4(1)==0);
 
 % ---- misc. constraints  ----------
 % opti.subject_to(0<= T <= 2); % Time must be positive
@@ -495,7 +502,7 @@ h = findall(gcf,'Type','axes'); % An array if you have subplots
 set(h, 'TickLabelInterpreter', 'latex')
 
 %% functions and definitions
-function [xdot, inter, Fx, Fy] = DT_model(x, u, params)
+function [xdot, inter, Fx, Fy] = DT_model(x, u, params, Fz)
 
 % ---- inputs ----
 
@@ -512,6 +519,12 @@ Fxr     = x(9);
 ddelta  = u(1);
 Fxfval  = u(2);
 Fxrval	= u(3);
+
+% tire forces
+Fz1     = Fz(1);
+Fz2     = Fz(2);
+Fz3     = Fz(3);
+Fz4     = Fz(3);
 
 % ---- parameters ----
 
@@ -565,20 +578,21 @@ alpha4 = -atan(vy4./vx4);
 
 % determining the lateral forces on the wheels from Fy
 % maximum forces
-Fzf = m*g*lr/(lf+lr)/2; 
-Fzr = m*g*lf/(lf+lr)/2;
-Dxf = muxf.*Fzf; Dxr = muxr.*Fzr; % remove the /2 for a single track model
-Dyf = muyf.*Fzf; Dyr = muyr.*Fzr;
+% Fzf = m*g*lr/(lf+lr)/2; 
+% Fzr = m*g*lf/(lf+lr)/2;
+Dx1 = muxf.*Fz1; Dx2 = muxr.*Fz2; Dx3 = muxf.*Fz3; Dx4 = muxr.*Fz4; 
+Dy1 = muyf.*Fz1; Dy2 = muyr.*Fz2; Dy3 = muyf.*Fz3; Dy4 = muyr.*Fz4;
+
 % pure slips
-Fy01 = Dyf.*sin(Cyf.*atan(Byf.*alpha1-Eyf.*(Byf.*alpha1 - atan(Byf.*alpha1))));
-Fy02 = Dyf.*sin(Cyf.*atan(Byf.*alpha2-Eyf.*(Byf.*alpha2 - atan(Byf.*alpha2))));
-Fy03 = Dyr.*sin(Cyr.*atan(Byr.*alpha3-Eyr.*(Byr.*alpha3 - atan(Byr.*alpha3))));
-Fy04 = Dyr.*sin(Cyr.*atan(Byr.*alpha4-Eyr.*(Byr.*alpha4 - atan(Byr.*alpha4))));
+Fy01 = Dy1.*sin(Cyf.*atan(Byf.*alpha1-Eyf.*(Byf.*alpha1 - atan(Byf.*alpha1))));
+Fy02 = Dy2.*sin(Cyf.*atan(Byf.*alpha2-Eyf.*(Byf.*alpha2 - atan(Byf.*alpha2))));
+Fy03 = Dy3.*sin(Cyr.*atan(Byr.*alpha3-Eyr.*(Byr.*alpha3 - atan(Byr.*alpha3))));
+Fy04 = Dy4.*sin(Cyr.*atan(Byr.*alpha4-Eyr.*(Byr.*alpha4 - atan(Byr.*alpha4))));
 % combined slip
-Fy1 = Fy01.*sqrt(1.01 - (Fxf/Dxf).^2);
-Fy2 = Fy02.*sqrt(1.01 - (Fxf/Dxf).^2);
-Fy3 = Fy03.*sqrt(1.01 - (Fxr/Dxr).^2);
-Fy4 = Fy04.*sqrt(1.01 - (Fxr/Dxr).^2);
+Fy1 = Fy01.*sqrt(1.01 - (Fxf/Dx1).^2);
+Fy2 = Fy02.*sqrt(1.01 - (Fxf/Dx2).^2);
+Fy3 = Fy03.*sqrt(1.01 - (Fxr/Dx3).^2);
+Fy4 = Fy04.*sqrt(1.01 - (Fxr/Dx4).^2);
 
 % the total forces and moments acting on the vehicle
 % longitudanal force
@@ -653,4 +667,28 @@ function [x, y] = VehicleShapeNew(x, y, theta, l, w)
     new = box_matrix * rota_matrix + repmat([x, y], size(box, 1), 1);        
     x = [new(1,1), new(2,1), new(3,1), new(4,1), new(1,1)];    
     y = [new(1,2), new(2,2), new(3,2), new(4,2), new(1,2)];
+end
+
+% updating the normal forces
+function Fz_LT = updating_normal_forces(params, Fx, Fy)
+
+% ----- parameters
+
+% vehicle
+m   = params.m;
+lf  = params.lf; 
+lr  = params.lr;
+w = params.w;
+g   = params.g;
+h  = params.h;
+
+% normal force calculation
+Fz1 = (m * g * w * lr - h * w * Fx - h * (lf + lr) * Fy) / (2 * w * (lf + lr));
+Fz2 = (m * g * w * lr - h * w * Fx + h * (lf + lr) * Fy) / (2 * w * (lf + lr));
+Fz3 = (m * g * w * lr + h * w * Fx - h * (lf + lr) * Fy) / (2 * w * (lf + lr));
+Fz4 = (m * g * w * lr + h * w * Fx + h * (lf + lr) * Fy) / (2 * w * (lf + lr));
+
+% ----- outputs
+Fz_LT = [Fz1; Fz2; Fz3; Fz4];
+
 end
